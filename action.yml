@@ -1,0 +1,53 @@
+name: Kubescape
+description: Run Kubescape scan
+# author:
+
+inputs:
+  kubescapeArgs:
+    description: |
+      Arguments to be passed to kubescape scan. The following
+      arguments are supported - 
+      -f, --format - Output format. Supported formats: 
+                    "pretty-printer"/"json"/"junit"/"prometheus"
+                    (default "pretty-printer")
+      -o, --output - Output file. Print output to file and not stdout
+      -s, --silent - Silent progress messages
+      --verbose - Display all of the input resources and not only 
+                  failed resources
+      --logger - Logger level. Supported: debug/info/success/warning/
+                 error/fatal (default "info")
+    required: false
+  threshold:
+    description: |
+      Failure threshold is the percent above which the command fails and 
+      returns exit code 1 (default 0 i.e, action fails if any control fails)
+    default: 0
+    required: false
+  chartName:
+    description: |
+      Name of the helm chart
+    required: true
+  chartPath:
+    description: |
+      Path to the helm chart
+  helmArgs:
+    description: |
+      Arguments to be passed to helm. These usually are the values for the helm
+      chart that need to be substituted during the scan without which the chart
+      would not be complete.
+    required: false
+  framework:
+    description: |
+      List of all frameworks to scan. Run kubescape list frameworks with 
+      the Kubescape CLI to get a list of all frameworks. Either frameworks 
+      have to be specified or controls.
+    required: false
+  control:
+    description: |
+      List of all controls to scan. Run kubescape list controls with the 
+      Kubescape CLI to get a list of all controls. Either frameworks 
+      have to be specified or controls.
+    required: false
+runs:
+  using: docker
+  image: Dockerfile
